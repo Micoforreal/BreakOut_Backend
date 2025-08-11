@@ -1,0 +1,21 @@
+const characterModelData = {
+    "characterModelAddress": "HEpxgLZ5dZdEWDg1griAniB7UTamhebP2VFxLpWz11WG",
+    "transaction": {
+        "blockhash": "2aKrxskQcMVdZkw6ZMDmNujqAviBaFdamz1hiv4Z9UB3",
+        "lastValidBlockHeight": 50541364,
+        "transaction": "5h92X7atCfzQPYf4ckXz4NLFFGQNqZSMFsoE73PQnPA6ELxmBHXKo19zYHPr1mjYSdERyVQBLYPg7Z1RQ5mjJC6cvY3jhUQequz9z2qggsyz8Ce1UgUDNp4ue5vsUmdQEdFnsNnbEXKt52tuyyKPtUg6PKqXeCLab8Y1Y1G8PrjaQ8EnK1mUKeCRA9MqjhCzs8JK7reTVaPyHDwMQUXufE4RJG4gEF9jT4ZwMBBQRHfiuXZ4U4YX4rsD346VDTi4xdPpsh8fKtv2YxtJc3BmS1i4UTULhNVYcMc1sqYmiFxH7C7UGTPAdWmvZcUismyhLKKxaLgM2izpuUmgSRgHzjFZyhNj1GnyqRkoiiBESob9XCU6uSZGTmyzKdyFQimRbdC4Uo5f8Dc5FrpYhqPa4ncpdrrZMNo1hKpXqiWQ2BxYDmUf7EF65kPYUeyvMJmSKY2oz3PByqftkg7vRK1Sxwj9pPhMsaK1KVYWSLmiHUeh1mGsoLiKeNJQ28BMy4it1ZWuGnSpxyXFdfQg6pRK2gtqQFNF51Dy7J5o7VMUcfHwJmU11jbN6DsC4LWwtc25qXXD5uBj8hHBPLtJuhFeK5HAZiA5BjMwSDrSZaRito8YKCnMfJYJA1cMY8Ey57RBQ36ZHaz5Yv9HQbruyEH7YdLm35FAKGmjN5yCxCt6F66Q2cQBQi64HsiwpwDwx5ZVEytmwUaaFxhqhyX73rWZfE5hAkcKaFdorRsK7A4rm7vux"
+    },
+    "transactionSignature": [
+        {
+            "bundleId": 1,
+            "responses": [
+                {
+                    "signature": "5T4avVgqvKMazmvQt5RJfmhhZkQZwCjwd6KFz4kQxLkxErHfiMvGFnJkTv6UcDqpviHZuLsahXXyekux6YCsdojp",
+                    
+                }
+            ]
+        }
+    ],
+
+    "characterTreeAddress": "CSfsDThzMpzXbih9uwa1NmRcfVX7Ai2cojdya8DnYHcL"
+}
