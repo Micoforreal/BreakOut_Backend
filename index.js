@@ -315,12 +315,12 @@ app.post("/addAchievement", async (req, res) => {
 app.get("/", async (req, res) => {
   // const response= await createProject()
 
-  const ress = await createProject();
+  // const ress = await createProject();
 
-  console.log("Project created:", ress);
-  const response = await createProfileTree(ress.projectAddress);
+  // console.log("Project created:", ress);
+  // const response = await createProfileTree(ress.projectAddress);
 
-  res.send({ w: ress, e: response });
+  // res.send({ w: ress, e: response });
 });
 
 app.listen(8000, () => {
