@@ -1,4 +1,4 @@
-const characterModelData = {
+ {
     "characterModelAddress": "HEpxgLZ5dZdEWDg1griAniB7UTamhebP2VFxLpWz11WG",
     "transaction": {
         "blockhash": "2aKrxskQcMVdZkw6ZMDmNujqAviBaFdamz1hiv4Z9UB3",
@@ -17,5 +17,8 @@ const characterModelData = {
         }
     ],
 
-    "characterTreeAddress": "CSfsDThzMpzXbih9uwa1NmRcfVX7Ai2cojdya8DnYHcL"
+    "characterTreeAddress": "CSfsDThzMpzXbih9uwa1NmRcfVX7Ai2cojdya8DnYHcL",
+
+    "profileTreeAddress": "DozX39o2n5Hh4ug87xksCjtTZR8wAJfTW7meSFXrYZPc"
 }
+
