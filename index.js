@@ -220,20 +220,20 @@ app.post("/userCharacter", async (req, res) => {
 
 
 const createMission = async () => {
-  const {
-    createCreateMissionPoolTransaction: {
-      missionPoolAddress, // The address of the mission pool
-      tx, // The transaction response, you'll need to sign and send this transaction
-    },
-  } = await client.createCreateMissionPoolTransaction({
-    data: {
-      name: "Test Mission Pool",
-      project: projectAddress.toString(),
-      payer: adminPublicKey.toString(),
-      authority: adminPublicKey.toString(),
-      characterModel: characterModelAddress.toString(),
-    },
-  });
+  // const {
+  //   createCreateMissionPoolTransaction: {
+  //     missionPoolAddress, // The address of the mission pool
+  //     tx, // The transaction response, you'll need to sign and send this transaction
+  //   },
+  // } = await client.createCreateMissionPoolTransaction({
+  //   data: {
+  //     name: "Test Mission Pool",
+  //     project: projectAddress.toString(),
+  //     payer: adminPublicKey.toString(),
+  //     authority: adminPublicKey.toString(),
+  //     characterModel: CHARACTER_MODEL_ADDRESS.toString(),
+  //   },
+  // });
 
   const {
     createCreateMissionTransaction: {
@@ -243,29 +243,16 @@ const createMission = async () => {
   } = await client.createCreateMissionTransaction({
     data: {
       name: "Test mission",
-      project: projectAddress.toString(),
+      project: PROJECT_ADDRESS.toString(),
       cost: {
         address: resourceAddress.toString(),
-        amount: "100000",
+        amount: "1",
       },
       duration: "86400", // 1 day
-      minXp: "10", // Minimum XP required to participate in the mission
-      rewards: [
-        {
-          kind: RewardKind.Xp,
-          max: "100",
-          min: "100",
-        },
-        {
-          kind: RewardKind.Resource,
-          max: "50000000",
-          min: "25000000",
-          resource: resourceAddress.toString(),
-        },
-      ],
-      missionPool: missionPoolAddress.toString(),
+      minXp: "1", // Minimum XP required to participate in the mission
+      
       authority: adminPublicKey.toString(),
-      payer: adminPublicKey.toString(),
+
     },
   });
 };
