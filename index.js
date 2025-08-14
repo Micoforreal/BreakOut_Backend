@@ -223,10 +223,6 @@ app.post("/testMission", async (req, res) => {
   // const a = 846;           // number
   // const b = BN(846);
 
-
-
-
-
   const response = await client.createSendCharactersOnMissionTransaction({
     data: {
       userId: 846,
@@ -237,13 +233,6 @@ app.post("/testMission", async (req, res) => {
       payer: adminPublicKey.toString(), // Optiona
     },
   });
-
-
-
-
-
-
-  
 
   // await client.findCharacters({
 
@@ -373,6 +362,40 @@ const createProfileTree = async (projectAddress) => {
     return { error: error.message };
   }
 };
+
+app.post("/createUserProfile", async (req, res) => {
+  const { fullName, userPublicKey } = req.body;
+
+  try {
+    const {
+      createNewUserWithProfileTransaction: txResponse, // This is the transaction response, you'll need to sign and send this transaction
+    } = await client.createNewUserWithProfileTransaction({
+      project: PROJECT_ADDRESS,
+      wallet: userPublicKey.toString(),
+      profileIdentity: "main",
+      userInfo: {
+        name: fullName,
+        bio: "",
+        pfp: "",
+      },
+      payer: adminPublicKey.toString(),
+    });
+
+    const response = await signTransaction(txResponse);
+
+    res.status(200).send({
+      response: response,
+    });
+  } catch (error) {
+
+    
+    res.status(400).send({
+      message:"error occured"
+    });
+
+
+  }
+});
 
 app.post("/addAchievement", async (req, res) => {
   console.log("Adding achievement...");
