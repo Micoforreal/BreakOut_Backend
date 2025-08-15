@@ -17,6 +17,9 @@ const { signTransaction, signer } = require("./helpers/transactions");
 const userRoutes = require('./routes/users');
 const adminRoutes = require("./routes/admin");
 const { connectDB } = require("./utils/db");
+const { addUserAuthToDb, getUserAuthFromDb } = require("./helpers/users");
+const { logger } = require("./middleware/logger");
+const dotenv = require("dotenv")
 const API_URL = "https://edge.test.honeycombprotocol.com/";
 
 const PROJECT_ADDRESS = "8Myc9f4fBVT3MNPobuV4CssNBBBDD5jmhzguwvArrZAY";
@@ -32,10 +35,12 @@ const MISSION_ADDRESS = "rBP8Zu2P1iA8atV4CfbnjoBLTefMXRcUDDKjtxY3BiZ";
 const client = createEdgeClient(API_URL, true);
 
 // import createEdgeClient from "@honeycomb-protocol/edge-client";
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(logger)
 
 
 // Get the public key of the signer
@@ -225,22 +230,21 @@ app.post("/testMission", async (req, res) => {
 
 app.use('/user',userRoutes)
 
-app.use("admin", adminRoutes)
+app.use("/admin", adminRoutes)
 
 
 
 
 
 app.get("/", async (req, res) => {
-  // const response= await createProject()
+
   // const ress = await createProject();
   // console.log("Project created:", ress);
   // const response = await createProfileTree(ress.projectAddress);
-  // res.send({ w: ress, e: response });
+
 });
 
-app.listen(8000, async () => {
-   await connectDB();
-  console.log("Signer public key:");
+app.listen(PORT, async () => {
+
   console.log("Server listening on port 8000");
 });

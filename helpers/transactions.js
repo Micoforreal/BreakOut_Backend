@@ -4,6 +4,7 @@ const fs = require("fs");
 const {
   sendTransactions,
 } = require("@honeycomb-protocol/edge-client/client/helpers");
+const client = require("../utils/honeyClient");
 
 
 const signer = web3.Keypair.fromSecretKey(

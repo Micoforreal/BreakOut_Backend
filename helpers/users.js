@@ -1,8 +1,12 @@
+const { PROJECT_ADDRESS } = require("../utils/constants");
+const { connectDB } = require("../utils/db");
 const client = require("../utils/honeyClient");
+const { adminPublicKey, signTransaction } = require("./transactions");
 
 
 
  const getUserProfile = async (publicKey) => {
+
 
   const user = await client
   .findUsers({
@@ -12,7 +16,7 @@ const client = require("../utils/honeyClient");
     includeProof: true,
   })
   .then(({ user }) => user);
-  if (uses.length > 0) {
+  if (user.length > 0) {
 
     
     const characterArray = await client
@@ -39,17 +43,17 @@ const client = require("../utils/honeyClient");
     
     return userData = [
       {
-        id: usersArray[0].id,
+        id: user[0].id,
         profileAddress:usersArray[0].address,
         userAddress: usersArray[0].address,
         fullName: usersArray[0].info.name,
-        level: Number(usersArray[0].customData.level[0]),
+        level: Number(usersArray[0]?.customData?.level) || null,
         xp: usersArray[0].platformData.xp,
-        characterAddress: characterArray[0].address,
+        characterAddress: characterArray[0]?.address,
       },
     ];
   }else{
-    throw new Error("user not found");
+    return "No user found";
     
   }
 };
@@ -60,13 +64,41 @@ const client = require("../utils/honeyClient");
 
  const addUserAuthToDb = async (auth) => {
 
+  try {
+    
+    const db = await connectDB()
+    const collection = db.collection("myCollection");
+    
+    const result = await collection.insertOne(auth);
+    
+    
+    return result
+  } catch (error) {
+
+    console.log(error)
+    
+  }
+
+
   
 }
 
 
+const getUserAuthFromDb = async (userId) => {
+
+    const db = await connectDB()
+    const collection = db.collection("myCollection");
+   
+    const auth = await collection.findOne({  "user.id": userId });
+   
+    
+    return auth
+}
 
 
 const updateUserLevel = async (level, profileAddress , accessToken)  => {
+
+
 
   const {
     createUpdateProfileTransaction: txResponse,
@@ -85,8 +117,7 @@ const updateUserLevel = async (level, profileAddress , accessToken)  => {
       {
         fetchOptions: {
           headers: {
-            authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4NDYsInVzZXJfYWRkcmVzcyI6IkJQVDJoYzJVYjF4Smh6RWpnNURCWUdNQ0dyVzNuVXZpbWhKYVZWZmhxRUJ3IiwiaWF0IjoxNzU1MTc0NjgzLCJleHAiOjE3NTUyNjEwODN9.BRza_NhSoQSmU89xbyMI9bJO0z-M578vHEHW1-rA0YYN9hxD5wmdzFeObGFqJfAGKxR2xZESUbe_rSQBuWN7iGsPyIUZ-VwG5AmGw-R6LM8GlwhDo1rzzHyp0u_dbvpvCbDA2zOnHb-25QfxIP6TpSq_lXZHbN--O0nV69mnCZuGqtVzvTFU80b20eEuIsUrwGad-OOiNlif0iAq6Sryyr97_jaFFYjbBxJnH77jhJ8NQC2ovBDBFR1uWmuaRuby0DFdn9_Dr4NDN9EMJU39qJXSt3odzXNBRsTAEQZa00Ju5AfgvD1vtMn4wGXpVw_zlMDJ29X9k-GRbxBbzafPeTSaC3nqDEXiNpTPid-Pyf_hMmlE4CNTHX7Tt07PQMJNzNttV_nTqpBlTPru9Fu1UOk3YjRiuVzf6efryTIauZbLpBOhLLTTWYxNORFOwTYeYm8JlLHD7chSr9y4Xu4nYNFhmO-EJsZHpd1_9tEpn-q9cTBJiQnMiopdmGwOZNl7C-VbywFkvC3k29bfJ3I-z3M8EY_FHJwBlCDBzyaZ0RBs1VJyar4TmnWQvGXwLLeI7MK91up17sNCVSEdXXJuurNPd7k2tArjC5NhdCsnMBy7Qsh1Se2mdX7XS2XycRZn-rHtJkQwC8yCTmixCv2f3qlZy9ASDrWtgATyj3o-ZvE`, // Required, you'll need to authenticate the user with our Edge Client and provide the resulting access token here, otherwise this operation will fail
-          },
+            authorization: `Bearer ${accessToken}` },
         },
       }
     );
@@ -105,4 +136,4 @@ const updateUserLevel = async (level, profileAddress , accessToken)  => {
 
 
 
-module.exports ={updateUserLevel,addUserAuthToDb,getUserProfile}
+module.exports ={updateUserLevel,addUserAuthToDb,getUserProfile,getUserAuthFromDb}

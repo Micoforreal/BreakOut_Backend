@@ -1,17 +1,18 @@
 // db.js
-
+const dotenv = require("dotenv")
 const { MongoClient } = require("mongodb");
+dotenv.config();
 
 
-const uri = "mongodb+srv://outbreakdb:IXRF2Xfb8mKhSZGP@cluster0.gfxdn.mongodb.net/outbreak?retryWrites=true&w=majority";
 
+const uri =  process.env.MONGODB ||"";
 const client = new MongoClient(uri);
 
 let db;
  async function connectDB() {
   if (!db) {
     await client.connect();
-    db = client.db("mydatabase"); // choose database name
+    db = client.db("outbreakdb"); // choose database name
     console.log("✅ MongoDB connected");
   }
   return db;

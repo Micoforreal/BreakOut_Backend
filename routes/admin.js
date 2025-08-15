@@ -1,5 +1,5 @@
 const express = require("express");
-const { signTransaction, signer} = require("../helpers/transactions");
+const { signTransaction, signer, adminPublicKey} = require("../helpers/transactions");
 const client = require("../utils/honeyClient");
 const router = express.Router()
 
@@ -9,6 +9,8 @@ const {
   MintAsKind,
   ResourceStorageEnum,
 } = require("@honeycomb-protocol/edge-client");
+const { PROJECT_ADDRESS, CHARACTER_MODEL_ADDRESS, RESOURCE_ADDRESS, MISSION_POOL_ADDRESS } = require("../utils/constants");
+const { createMission } = require("../helpers/admin");
 
 
 
@@ -75,7 +77,7 @@ router.post("createMissionPool", async (req, res) => {
      
     
     res.status(200).send({
-         missionPoolAddress: missionPoolAddress.toString(),
+       missionPoolAddress: missionPoolAddress.toString(),
       transaction: signedTransaction[0].responses,
 
 })
@@ -85,52 +87,27 @@ router.post("createMissionPool", async (req, res) => {
 
 
 router.post("/createMissions", async (req, res) => {
+const LevelData = [
+   { level: 4, enemies: 5, objective: "defeat 4 aliens in 45 seconds", missionAddress: "", timed: true, duration: "45", rewardXp: "7", rewardGold: "0" },
+  { level: 5, enemies: 5, objective: "eliminate all aliens guarding the bridge", missionAddress: "", timed: false, duration: "0", rewardXp: "10", rewardGold: "0" },
+]
+
+  
   try {
   
-
-    const {
-      createCreateMissionTransaction: { missionAddress, tx: txResponse },
-    } = await client.createCreateMissionTransaction(
-      {
-        data: {
-          name: "test mission7",
-          project: PROJECT_ADDRESS.toString(),
-
-          cost: {
-            address: RESOURCE_ADDRESS.toString(),
-            amount: "1",
-          },
-          duration: "60", // 1 day
-          minXp: "1",
-          rewards: [
-            {
-              kind: RewardKind.Xp,
-              max: "10",
-              min: "10",
-            },
-
-            {
-              kind: RewardKind.Resource,
-              max: "5",
-              min: "1",
-              resource: RESOURCE_ADDRESS.toString(),
-            },
-          ],
-
-          missionPool: MISSION_POOL_ADDRESS.toString(),
-          authority: adminPublicKey.toString(),
-          payer: adminPublicKey.toString(),
-        },
-      },
-      {}
-    );
-
-    const signedTransaction = await signTransaction(txResponse);
-
+    const updatedLevels = [];
+    for (const level of LevelData) {
+      const updated = await createMission(level);
+      updatedLevels.push(updated);
+    }
+    
+    
     res.status(200).send({
-      // missionPoolAddress: missionPoolAddress.toString(),
-      missionAddress: missionAddress.toString(),
-      transaction: signedTransaction[0].responses,
+      level:updatedLevels
+
+      // // missionPoolAddress: missionPoolAddress.toString(),
+      // missionAddress: missionAddress.toString(),
+      // // transaction: signedTransaction[0].responses,
     });
   } catch (error) {
     console.error("Error creating mission:", error);
@@ -281,6 +258,8 @@ router.post("/createCharacter", async (req, res) => {
     //     },
     //   },
     // });
+
+
 
     // Sign the transaction
     // const signedTransaction = await signTransaction(treeTx);
